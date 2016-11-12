@@ -1,4 +1,5 @@
 import sys,os, shutil
+import youtube_dl
 from pytube import YouTube
 import numpy as np
 import cv2 as cv2
@@ -10,6 +11,7 @@ from threading import Thread
 import warnings
 from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
+import urlparse
 
 #Program Constants
 _min_scene_length = 6 # the minimum number of seconds in a scene
@@ -30,12 +32,11 @@ videos = []
 
 # Extract the scenes by applying the pipeline
 def extract_scenes(url, model):
-	directory = str(uuid.uuid4())
 	print "START"
-	fname, cat = get_video(url, directory)
+	fname, cat = get_video(url)
 	print "END"
 	#print "DONE DOWNL"
-	cap = cv2.VideoCapture(directory+'/'+fname+'.3gp')
+	cap = cv2.VideoCapture(fname)
 	# cat = 2
  	# cap = cv2.VideoCapture('video.3gp')
 	#print directory+'/'+fname+'.3gp'
@@ -52,9 +53,7 @@ def extract_scenes(url, model):
 				scene["max_brightness"],
 				scene["max_bspeed"]
 			]
-		#print vect
 		vect = np.array(vect)
-		#print "OK"
 		avrg_duration += scene["duration"]
 		scenes[i]["score"] = np.asscalar(model.predict(vect.reshape(1,-1)))
 		i += 1
@@ -75,18 +74,23 @@ def extract_scenes(url, model):
 		d += scenes[i]['duration']
 	videos.append(ret_scenes)
 
-	# Delete the temporary files
-	shutil.rmtree(directory)
 
 # Download the video in the directory
-def get_video(yt_url, directory):
-	to_download = YouTube(yt_url)
-	video = to_download.get('3gp','144p')
-	if not os.path.exists(directory+'/'):
-		os.makedirs(directory+'/')
-	video.download(directory+'/')
-	cat = get_category(to_download.video_id)
-	return (video.filename, cat)
+def get_video(yt_url):
+	ydl_opts = {
+	    'format': '160',       
+	    'outtmpl': '%(id)s',        
+	    'noplaylist' : True
+	}
+	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+		ydl.download([yt_url])
+
+	url_data = urlparse.urlparse(yt_url)
+	query = urlparse.parse_qs(url_data.query)
+	video_id = query["v"][0]
+
+	cat = get_category(video_id)
+	return (video_id, cat)
 
 # Get the category of a video given an id
 def get_category(id):
@@ -207,4 +211,5 @@ for thread in threads:
 	thread.join()
 
 # Return the json
-print json.dumps(videos)
+with open('out.json', 'w') as outfile:
+    json.dump(data, outfile)

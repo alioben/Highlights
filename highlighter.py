@@ -178,6 +178,7 @@ def get_scenes(cap, tail=2):
 nn_model = None
 try:
 	with open('nn_model.pickle', 'rb') as f:
+		print pickle.load(f)
 		nn_model = pickle.load(f)[0]
 		print "Model loaded."
 except:

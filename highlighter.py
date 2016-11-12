@@ -212,4 +212,4 @@ for thread in threads:
 
 # Return the json
 with open('out.json', 'w') as outfile:
-    json.dump(data, outfile)
+    json.dump(videos, outfile)

@@ -31,7 +31,7 @@ channel_id = sys.argv[1]
 videos = []
 
 # Extract the scenes by applying the pipeline
-def extract_scenes(url, model):
+def extract_scenes(url, model, title, video_id):
 	print "START"
 	fname, cat = get_video(url)
 	print "END"
@@ -66,7 +66,7 @@ def extract_scenes(url, model):
 		scenes.sort(key=lambda x: (x['start']))
 
 	d = 0
-	ret_scenes = {"url": url, "highlights": []}
+	ret_scenes = {"title": title, "video_id": video_id, "url": url, "highlights": []}
 	for i in range(len(scenes)):
 		if d > _max_scene_length:
 			break
@@ -109,9 +109,11 @@ def get_videos(channelID):
 	feed1 = feed1.read()
 	feed_json1 = json.loads(feed1)
 	results = []
+	titles = []
 	for item in feed_json1["items"]:
-		results.append("https://www.youtube.com/watch?v="+item['id']["videoId"])
-	return results
+		titles.append(item["snippet"]["title"])
+		results.append(item['id']["videoId"])
+	return titles, results
 
 # Extract the scene from the video once downloaded
 def get_scenes(cap, tail=2):
@@ -200,14 +202,14 @@ if nn_model == None:
 			pickle.dump([classifier], f)
 			
 # Multi-threaded downloading
-urls = get_videos(channel_id)
+titles, urls = get_videos(channel_id)
 print "GOT videos"
 print urls
 threads = []
 count = 0
-for url in urls:
+for title, url in zip(titles, urls):
 	if count < 5:
-		thread = Thread(target=extract_scenes, args=(url, nn_model))
+		thread = Thread(target=extract_scenes, args=("https://www.youtube.com/watch?v="+url, nn_model, title, url))
 		threads.append(thread)
 		thread.start()
 	count += 1

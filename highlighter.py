@@ -8,6 +8,7 @@ import isodate
 import pickle
 from threading import Thread
 import warnings
+from sklearn.neural_network import MLPClassifier
 
 #Program Constants
 _min_scene_length = 6 # the minimum number of seconds in a scene
@@ -33,7 +34,7 @@ def extract_scenes(url, model):
 	#print "DONE DOWNL"
 	#cap = cv2.VideoCapture(directory+'/'+fname+'.3gp')
 	cat = 2
-	cap = cv2.VideoCapture('video.3gp')
+ 	cap = cv2.VideoCapture('video.3gp')
 	#print directory+'/'+fname+'.3gp'
 	scenes = get_scenes(cap)
 	#print "GOT SCENES"
@@ -178,7 +179,6 @@ def get_scenes(cap, tail=2):
 nn_model = None
 try:
 	with open('nn_model.pickle', 'rb') as f:
-		print pickle.load(f)
 		nn_model = pickle.load(f)[0]
 		print "Model loaded."
 except:

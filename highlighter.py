@@ -9,6 +9,7 @@ import pickle
 from threading import Thread
 import warnings
 from sklearn.neural_network import MLPClassifier
+from sklearn.svm import SVC
 
 #Program Constants
 _min_scene_length = 6 # the minimum number of seconds in a scene
@@ -184,6 +185,16 @@ try:
 except:
 	pass
 
+if nn_model == None:
+	data = np.loadtxt("data_out.csv", delimiter=',')
+	X = data[:, 0:6]
+	y = data[:, 6]
+	classifier = MLPClassifier(activation='logistic', max_iter=1000, learning_rate='adaptive', hidden_layer_sizes=np.full((7, ), 30))
+	classifier.fit(X, y)
+	nn_model = classifier
+	with open('nn_model.pickle', 'wb') as f:
+			pickle.dump([classifier], f)
+			
 # Multi-threaded downloading
 threads = []
 for url in urls:

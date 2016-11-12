@@ -109,7 +109,6 @@ def get_videos(channelID):
 	feed1 = feed1.read()
 	feed_json1 = json.loads(feed1)
 	results = []
-	print feed_json1
 	for item in feed_json1["items"]:
 		results.append("https://www.youtube.com/watch?v="+item['id']["videoId"])
 	return results
@@ -219,10 +218,13 @@ urls = get_videos(channel_id)
 print "GOT videos"
 print urls
 threads = []
+count = 0
 for url in urls:
-	thread = Thread(target=extract_scenes, args=(url, nn_model))
-	threads.append(thread)
-	thread.start()
+	if count < 5:
+		thread = Thread(target=extract_scenes, args=(url, nn_model))
+		threads.append(thread)
+		thread.start()
+	count += 1
 for thread in threads:
 	thread.join()
 

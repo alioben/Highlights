@@ -31,11 +31,13 @@ videos = []
 # Extract the scenes by applying the pipeline
 def extract_scenes(url, model):
 	directory = str(uuid.uuid4())
-	#fname, cat = get_video(url, directory)
+	print "START"
+	fname, cat = get_video(url, directory)
+	print "END"
 	#print "DONE DOWNL"
-	#cap = cv2.VideoCapture(directory+'/'+fname+'.3gp')
-	cat = 2
- 	cap = cv2.VideoCapture('video.3gp')
+	cap = cv2.VideoCapture(directory+'/'+fname+'.3gp')
+	# cat = 2
+ 	# cap = cv2.VideoCapture('video.3gp')
 	#print directory+'/'+fname+'.3gp'
 	scenes = get_scenes(cap)
 	#print "GOT SCENES"
@@ -181,7 +183,7 @@ nn_model = None
 try:
 	with open('nn_model.pickle', 'rb') as f:
 		nn_model = pickle.load(f)[0]
-		print "Model loaded."
+		#print "Model loaded."
 except:
 	pass
 

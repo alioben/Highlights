@@ -138,6 +138,7 @@ def get_scenes(cap, tail=2):
 					exp_avrg =  _alpha*diff+(1-_alpha)*exp_avrg
 					max_bspeed = 0
 					max_brightness = 0
+				cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, cap.get(cv2.cv.CV_CAP_PROP_POS_FRAMES)+1)
 				max_bspeed = max(diff, max_bspeed)
 				avrgs.append(exp_avrg)
 				diffs.append(diff)

@@ -27,7 +27,7 @@ with warnings.catch_warnings():
     fxn()
 
 # Parsing the urls passed as argument
-urls = sys.argv[1:]
+channel_id = sys.argv[1]
 videos = []
 
 # Extract the scenes by applying the pipeline
@@ -102,6 +102,18 @@ def get_category(id):
 	cat = feed_json1["items"][0]['snippet']['categoryId']
 	return cat
 
+# Get the videos from the channel ID
+def get_videos(channelID):
+	url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&order=date&type=video&videoDuration=medium&channelId="+channelID+"&key=AIzaSyA2cu1skGcRjDfIpG2I1ri_MWeObrZGS30"
+	feed1 = urllib.urlopen(url)
+	feed1 = feed1.read()
+	feed_json1 = json.loads(feed1)
+	results = []
+	print feed_json1
+	for item in feed_json1["items"]:
+		results.append("https://www.youtube.com/watch?v="+item['id']["videoId"])
+	return results
+
 # Extract the scene from the video once downloaded
 def get_scenes(cap, tail=2):
 	last_frame = None
@@ -138,7 +150,7 @@ def get_scenes(cap, tail=2):
 					exp_avrg =  _alpha*diff+(1-_alpha)*exp_avrg
 					max_bspeed = 0
 					max_brightness = 0
-				cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, cap.get(cv2.cv.CV_CAP_PROP_POS_FRAMES)+1)
+				
 				max_bspeed = max(diff, max_bspeed)
 				avrgs.append(exp_avrg)
 				diffs.append(diff)
@@ -203,6 +215,9 @@ if nn_model == None:
 			pickle.dump([classifier], f)
 			
 # Multi-threaded downloading
+urls = get_videos(channel_id)
+print "GOT videos"
+print urls
 threads = []
 for url in urls:
 	thread = Thread(target=extract_scenes, args=(url, nn_model))

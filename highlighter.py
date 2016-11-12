@@ -179,7 +179,7 @@ nn_model = None
 try:
 	with open('nn_model.pickle', 'rb') as f:
 		nn_model = pickle.load(f)[0]
-		#print "Model loaded."
+		print "Model loaded."
 except:
 	pass
 

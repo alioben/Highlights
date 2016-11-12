@@ -16,7 +16,7 @@ import urlparse
 #Program Constants
 _min_scene_length = 6 # the minimum number of seconds in a scene
 _min_min_scene_length = 4
-_max_scene_length = 15 # the max number of seconds in a scene
+_max_scene_length = 30 # the max number of seconds in a scene
 _alpha = 0.05 # the wight for the scene detection
 
 # Disable warnings
@@ -174,20 +174,6 @@ def get_scenes(cap, tail=2):
 			scenes[j]["position"] = fr_start/cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
 			ret_scenes.append(scenes[j])
 		fr_start = fr_end
-
-	if len(ret_scenes) == 0:
-		fr_start = 0
-		ret_scenes = []
-		for j in range(len(scenes)):
-			fr_end = scenes[j]["end_frame"]
-			duration = (fr_end-fr_start)/cap.get(cv2.cv.CV_CAP_PROP_FPS)
-			if duration > _min_min_scene_length:
-				scenes[j]["start"] = fr_start/cap.get(cv2.cv.CV_CAP_PROP_FPS)
-				scenes[j]["end"] = fr_end/cap.get(cv2.cv.CV_CAP_PROP_FPS)
-				scenes[j]["duration"] = duration
-				scenes[j]["position"] = fr_start/cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
-				ret_scenes.append(scenes[j])
-			fr_start = fr_end
 
 	return ret_scenes
 

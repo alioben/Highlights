@@ -29,11 +29,11 @@ videos = []
 # Extract the scenes by applying the pipeline
 def extract_scenes(url, model):
 	directory = str(uuid.uuid4())
-	fname, cat = get_video(url, directory)
+	#fname, cat = get_video(url, directory)
 	#print "DONE DOWNL"
-	cap = cv2.VideoCapture(directory+'/'+fname+'.3gp')
-	# cat = 2
-	# cap = cv2.VideoCapture('videos/1.3gp')
+	#cap = cv2.VideoCapture(directory+'/'+fname+'.3gp')
+	cat = 2
+	cap = cv2.VideoCapture('video.3gp')
 	#print directory+'/'+fname+'.3gp'
 	scenes = get_scenes(cap)
 	#print "GOT SCENES"

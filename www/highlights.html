@@ -1,0 +1,34 @@
+<div class="col s10 m9 l10 homepage" ng-controller="HighlightsCtrl">
+    <div class="row">
+        
+        <div class="list_highlights">
+        	<div class="title_highlights">Highlights</div>
+        	<div>
+	            <div class="row highlight item" ng-style="highlight_style" ng-repeat="highlight in highlights track by $index" ng-click="Play(highlight.channel_id, undefined)">
+	                <div class="highlight_image">
+	                	<img ng-src="{{highlight.channel_image}}">
+	                </div> 
+	                <div class="highlight_title">
+	                	{{highlight.channel_short_title}}
+	                </div>
+	            </div>
+            </div>
+        </div>
+
+        <div class="list_newvideos">
+        	<div class="title_newvideos">New videos</div>
+        	<div>
+	            <div class="row item highlight" ng-style="highlight_style" ng-repeat="video in newVideos track by $index" ng-click="Play(video.channel_id, video.video_id)">
+	                <div class="highlight_image">
+	                	<img ng-src="{{video.video_image}}">
+	                </div> 
+	                <div class="highlight_title">
+	                	{{video.video_short_title}}
+	                </div>
+	            </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

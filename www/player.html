@@ -1,0 +1,56 @@
+<div class="col s10 m9 l10" id="youtube_player" style="position:relative;padding:0px;margin:0px;" ng-controller="PlayerCtrl">
+    <div class="row" style="margin-bottom:0px;">
+        <div class="col s12 m9 l9 " id="player_and_suggestions" style="position:relative;padding:0px;margin:0px;">
+            <input ng-change="play()" type="hidden" id="player_ready" ng-model="player_ready" value="0">
+            <div class="row player_container" id="player" style="position:relative;padding:0px;margin:0px;">
+            </div>
+            <div class="suggestions">
+                <div class="title_suggestions">Related videos</div>
+                <div class="suggestion" ng-repeat="suggestion in suggestions">
+                    <div class="image_video">
+                        <img ng-src="{{suggestion.images[0]}}">
+                    </div>
+                    <div class="title_video">
+                        {{suggestion.short_title}}
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <div class="col hide-on-small-only m3 l3 playingnow_bar" ">
+            <div class="mychannel_title"> Playing now</div>
+            <div class="playingnow_videos">
+                <div class="playingnow_video" ng-repeat="highlight in highlights">
+                    <div class="image_video">
+                        <img ng-src="{{highlight.image_url}}">
+                    </div>
+                    <div class="title_video valign">
+                        {{highlight.short_title}}
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+/*********************************************************
+ ** YOUTUBE PLAYER
+ **********************************************************/
+// 2. This code loads the IFrame Player API code asynchronously.
+function initiatePlayer() {
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+
+/*********************************************************
+ ** YOUTUBE PLAYER
+ **********************************************************/
+</script>

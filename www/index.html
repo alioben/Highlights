@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Spotlight</title>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9" />
+    <meta charset="UTF-8">
+</head>
+
+<body ng-app="spotlight">
+    <div class="row main-container">
+        <div style="padding:0px;" class="channel_bar col s2 m3 l2" ng-controller="ChannelBarCtrl" >
+            <div class="mychannel_title align-center hide-on-small-only">My channels</div>
+            <div class="channel_item row" ng-repeat="subscription in subscriptions" ng-click="Play(subscription.channel_id, undefined)">
+                <div style="margin-left:10px;margin-right:10px;">
+                        <img ng-class="{'big_channel_img': smallScreen==true, 'channel_image': smallScreen==false}" ng-src="{{subscription.channel_image}}" class="circle"> 
+                        <span class="hide-on-small-only"> {{subscription.short_title}}</span>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div ng-view style="position: relative;max-height: 100%;">
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+   
+</body>
+
+</html>

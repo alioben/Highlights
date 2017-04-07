@@ -6,4 +6,4 @@ Extract highlights from a video using Machine Learning and Computer Vision.
   - nn_model.pickle: Machine learning model used to rank scenes.
 
 # Mobile application
-  For more details about the mobile application, Please refer to the (main repository)[https://github.com/vontell/Highlights] or to the original (devpost page)[https://devpost.com/software/highlights-fb37vc] of the project.
+  For more details about the mobile application, Please refer to the [main repository](https://github.com/vontell/Highlights) or to the original [devpost page](https://devpost.com/software/highlights-fb37vc) of the project.
